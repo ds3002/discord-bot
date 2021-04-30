@@ -26,8 +26,11 @@ async def info(ctx):
     await ctx.send('My available commands are:\n\n`.ping` - A simple ping\n`.8ball` - play a game')
 
 @bot.command()
-async def test(ctx, arg1, arg2):
-    await ctx.send('You passed {} and {}'.format(arg1, arg2))
+async def covid(ctx, state):
+    url = (f'https://api.covidtracking.com/v1/states/{state}/current.json')
+    response = requests.get(url)
+    await ctx.send(response)
+    # await ctx.send('You passed {} and {}'.format(arg1, arg2))
 
 @bot.command(aliases=['8ball','eightball'])
 async def _8ball(ctx, *, question):
