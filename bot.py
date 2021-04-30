@@ -5,6 +5,7 @@ import discord
 from discord.ext import commands
 import random
 import requests
+import json
 import os
 
 bot = commands.Bot(command_prefix = '.', verify=False)
@@ -26,21 +27,14 @@ async def info(ctx):
     await ctx.send('My available commands are:\n\n`.ping` - A simple ping\n`.8ball` - play a game')
 
 @bot.command()
-async def covid(ctx, state):
-    if state:
-        url = (f'https://api.covid19api.com/world/total')
-        response = requests.get(url)
-        cases = response.text['TotalConfirmed']
-        deaths = response.text['TotalDeaths']
-        recovered = response.text['TotalRecovered']
-        await ctx.send(f'Current global COVID-19 statistics:\n  - Total cases: {cases}\n  - Confirmed deaths: {deaths}\n  - Confirmed recoveries: {recovered}')
-    else:
-        url = (f'https://api.covid19api.com/world/total')
-        response = requests.get(url)
-        cases = response.text['TotalConfirmed']
-        deaths = response.text['TotalDeaths']
-        recovered = response.text['TotalRecovered']
-        await ctx.send(f'Current global COVID-19 statistics:\n  - Total cases: {cases}\n  - Confirmed deaths: {deaths}\n  - Confirmed recoveries: {recovered}')
+async def covid(ctx):
+    url = (f'https://api.covid19api.com/world/total')
+    response = requests.get(url)
+    r = json.loads(response.text)
+    cases = r['TotalConfirmed']
+    deaths = r['TotalDeaths']
+    recovered = r['TotalRecovered']
+    await ctx.send(f'Current global COVID-19 statistics:\n  - Total cases: `{cases}`\n  - Confirmed deaths: `{deaths}`\n  - Confirmed recoveries: `{recovered}`\n\nData provided by https://api.covid19api.com/')
     # await ctx.send('You passed {} and {}'.format(arg1, arg2))
 
 @bot.command(aliases=['8ball','eightball'])
