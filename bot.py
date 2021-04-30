@@ -17,7 +17,7 @@ async def on_ready():
 async def on_member_join(member):
     print(f'{member} has joined')
 
-@bot.command()
+@bot.command(aliases=['pong'])
 async def ping(ctx):
     await ctx.send(f'Pong! {round(bot.latency * 1000)}ms')
 
