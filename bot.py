@@ -27,9 +27,20 @@ async def info(ctx):
 
 @bot.command()
 async def covid(ctx, state):
-    url = (f'https://api.covidtracking.com/v1/states/{state}/current.json')
-    response = requests.get(url)
-    await ctx.send(response)
+    if state:
+        url = (f'https://api.covid19api.com/world/total')
+        response = requests.get(url)
+        cases = response.text['TotalConfirmed']
+        deaths = response.text['TotalDeaths']
+        recovered = response.text['TotalRecovered']
+        await ctx.send(f'Current global COVID-19 statistics:\n  - Total cases: {cases}\n  - Confirmed deaths: {deaths}\n  - Confirmed recoveries: {recovered}')
+    else:
+        url = (f'https://api.covid19api.com/world/total')
+        response = requests.get(url)
+        cases = response.text['TotalConfirmed']
+        deaths = response.text['TotalDeaths']
+        recovered = response.text['TotalRecovered']
+        await ctx.send(f'Current global COVID-19 statistics:\n  - Total cases: {cases}\n  - Confirmed deaths: {deaths}\n  - Confirmed recoveries: {recovered}')
     # await ctx.send('You passed {} and {}'.format(arg1, arg2))
 
 @bot.command(aliases=['8ball','eightball'])
