@@ -15,14 +15,6 @@ async def on_ready():
     print("Bot is ready")
 
 @bot.event
-async def status():
-    url = 'https://api.github.com/repos/ds3002/discord-bot/commits/main'
-    response = requests.get(url)
-    payload = json.loads(response.text)
-    commit = payload['sha']
-    await ctx.send(f'DS3002 Bot - Running commit `{commit}`')
-
-@bot.event
 async def on_member_join(member):
     print(f'{member} has joined')
 
@@ -31,8 +23,13 @@ async def ping(ctx):
     await ctx.send(f'Pong! {round(bot.latency * 1000)}ms')
 
 @bot.command()
-async def info(ctx):
-    await ctx.send('My available commands are:\n\n`.ping` - A simple ping\n`.8ball` - play a game')
+async def status(ctx):
+    url = 'https://api.github.com/repos/ds3002/discord-bot/commits/main'
+    response = requests.get(url)
+    payload = json.loads(response.text)
+    commit = payload['sha']
+    date = payload['commit']['author']['date']
+    await ctx.send(f'DS3002 Bot\n    Commit: `{commit}`\n    Build: `{date}`')
 
 @bot.command()
 async def clear(ctx, amount=5):
