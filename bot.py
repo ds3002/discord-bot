@@ -27,6 +27,13 @@ async def info(ctx):
     await ctx.send('My available commands are:\n\n`.ping` - A simple ping\n`.8ball` - play a game')
 
 @bot.command()
+async def clear(ctx, amount=5):
+    if amount == 0:
+        await ctx.send('Nothing to purge')
+    else:
+        await ctx.channel.purge(limit=amount)
+
+@bot.command()
 async def covid(ctx):
     url = (f'https://api.covid19api.com/world/total')
     response = requests.get(url)
