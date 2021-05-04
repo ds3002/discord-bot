@@ -12,13 +12,15 @@ bot = commands.Bot(command_prefix = '.', verify=False)
 
 @bot.event
 async def on_ready():
+    print("Bot is ready")
+
+@bot.event
+async def status():
     url = 'https://api.github.com/repos/ds3002/discord-bot/commits/main'
     response = requests.get(url)
     payload = response.text
     commit = payload['sha']
-    await bot.change_presence(status=discord.status.idle, activity=discord.Game('Just watching things'))
-    await ctx.send(f'DS3002 Bot Refreshed - commit {commit}')
-    print("Bot is ready")
+    await ctx.send(f'DS3002 Bot - Running commit `{commit}`')
 
 @bot.event
 async def on_member_join(member):
