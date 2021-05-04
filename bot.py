@@ -18,7 +18,7 @@ async def on_ready():
 async def status():
     url = 'https://api.github.com/repos/ds3002/discord-bot/commits/main'
     response = requests.get(url)
-    payload = response.text
+    payload = json.loads(response.text)
     commit = payload['sha']
     await ctx.send(f'DS3002 Bot - Running commit `{commit}`')
 
