@@ -28,8 +28,30 @@ async def status(ctx):
     response = requests.get(url)
     payload = json.loads(response.text)
     commit = payload['sha']
+    comment = payload['commit']['message']
     date = payload['commit']['author']['date']
-    await ctx.send(f'DS3002 Bot\n    Commit: `{commit}`\n    Build: `{date}`')
+    await ctx.send(f'Discord Bot\n    Commit: `{commit}`\n    Build: `{date}`\n    Comment: `{comment}`')
+
+@bot.command()
+async def userinfo(ctx, *, user: discord.Member = None):
+    response = bot.fetch_user(user)
+    # p = json.loads(response.text)
+    # await ctx.send(p)
+    print(response)
+
+@bot.command()
+async def member(ctx, member : discord.Member):
+    response = bot.get_user(member)
+    # p = json.loads(response)
+    await ctx.send(response)
+
+@bot.command()
+async def kick(ctx, member : discord.Member, *, reason=None):
+    await member.kick(reason=reason)
+
+@bot.command()
+async def ban(ctx, member : discord.Member, *, reason=None):
+    await member.ban(reason=reason)
 
 @bot.command()
 async def clear(ctx, amount=5):
